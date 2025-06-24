@@ -1,3 +1,5 @@
+import { cart } from "../data/cart.js";
+
 let productsHTML = "";
 
 products.forEach((product) => {
@@ -59,6 +61,7 @@ document.querySelector(".js-products-grid").innerHTML = productsHTML;
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
+    let cartSize = 0;
     const productId = button.dataset.productId;
 
     let repeatedItem;
@@ -76,6 +79,10 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
         quantity: 1,
       });
     }
+    cart.forEach((item) => {
+      cartSize += item.quantity;
+    });
+    document.querySelector(".cart-quantity").innerHTML = cartSize;
 
     console.log(cart);
   });
