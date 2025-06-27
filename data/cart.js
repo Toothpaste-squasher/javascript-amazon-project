@@ -1,9 +1,12 @@
-export let cart = [
-  {
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2,
-  },
-];
+export let cart = JSON.parse(localStorage.getItem("cart"));
+
+if (!cart) {
+  cart = [];
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 export function addToCart(productId) {
   let repeatedItem;
@@ -21,6 +24,8 @@ export function addToCart(productId) {
       quantity: 1,
     });
   }
+
+  saveToLocalStorage();
 }
 
 export function removeFromCart(productId) {
@@ -34,5 +39,5 @@ export function removeFromCart(productId) {
 
   cart = newCart;
 
-  console.log(cart);
+  saveToLocalStorage();
 }
