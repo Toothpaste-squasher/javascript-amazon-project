@@ -209,3 +209,10 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.js-quantity-input {
+  width: 25px;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid rgb(222, 222, 222);
+}
