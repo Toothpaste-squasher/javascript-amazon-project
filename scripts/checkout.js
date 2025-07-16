@@ -7,6 +7,7 @@ import {
   updateDeliveryOptions,
 } from "../data/deliveryOptions.js";
 import * as paymentSum from "./paymentSummary.js";
+import "../data/cart-class.js";
 
 // Display the total price of items in the cart
 document.querySelector;
