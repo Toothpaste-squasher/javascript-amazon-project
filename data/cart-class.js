@@ -1,6 +1,6 @@
 class Cart {
-  cartItems;
-  localStorageKey;
+  #cartItems; // Private property to hold cart items
+  #localStorageKey; // Private property for localStorage key
 
   constructor(localStorageKey) {
     this.localStorageKey = localStorageKey;

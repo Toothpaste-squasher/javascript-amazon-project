@@ -7,7 +7,7 @@ export function itemsPrice() {
   cart.forEach((item) => {
     products.forEach((product) => {
       if (item.productId === product.id) {
-        priceCentsSum += product.priceCents;
+        priceCentsSum += product.priceCents * item.quantity;
       }
     });
   });
