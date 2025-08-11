@@ -8,11 +8,18 @@ import {
 } from "../data/deliveryOptions.js";
 import * as paymentSum from "./paymentSummary.js";
 import "../data/cart-class.js";
-import "../data/backend-practice.js"
+import {loadProducts} from "../data/products.js";
+
+
+loadProducts(() => {
+  renderOrderSummary();
+  renderPaymentSummary();
+});
+
 
 // Display the total price of items in the cart
-document.querySelector;
-let orderSummartHTML = `
+function renderPaymentSummary() {
+  let orderSummaryHTML = `
     <div class="payment-summary-title">Order Summary</div>
 
     <div class="payment-summary-row">
@@ -52,152 +59,157 @@ let orderSummartHTML = `
       Place your order
     </button>
   `;
-document.querySelector(".js-payment-summary").innerHTML = orderSummartHTML;
-
-// Display the order summary
-let cartSummaryHTML = "";
-
-cart.forEach((cartItem) => {
-  const productId = cartItem.productId;
-  let matchingProduct;
-
-  products.forEach((product) => {
-    if (productId === product.id) {
-      matchingProduct = product;
-    }
-  });
-
-  cartSummaryHTML += `
-    <div class="
-      cart-item-container js-cart-item-containter-${matchingProduct.id}
-    ">
-      <div class="delivery-date" data-item-id='${productId}'>
-        Delivery date: ${genArrivalDateString(cartItem.deliveryOptionId)}
-      </div>
-
-      <div class="cart-item-details-grid">
-        <img
-          class="product-image"
-          src="${matchingProduct.image}"
-        />
-
-        <div class="cart-item-details">
-          <div class="product-name">
-            ${matchingProduct.name}
-          </div>
-          <div class="product-price">$${formatCurrency(
-            matchingProduct.priceCents
-          )}</div>
-          <div class="product-quantity">
-            <span> Quantity: 
-              <span class="quantity-label js-quantity-label-${
-                matchingProduct.id
-              }">
-                ${cartItem.quantity}
-              </span> 
-            </span>
-            <span class="update-quantity-link link-primary js-update-link" data-product-id="${
-              matchingProduct.id
-            }">
-              Update
-            </span>
-            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${
-              matchingProduct.id
-            }">
-              Delete
-            </span>
-          </div>
-        </div>
-
-        <div class="delivery-options">
-          <div class="delivery-options-title">
-            Choose a delivery option:
-          </div>
-          ${deliveryOptionsHTML(cartItem)}
-        </div>
-      </div>
-    </div>
-  `;
-});
-
-function deliveryOptionsHTML(cartItem) {
-  let html = "";
-
-  deliveryOptions.forEach((deliveryOption) => {
-    const dateString = genArrivalDateString(deliveryOption.id);
-
-    const priceString =
-      deliveryOption.priceCents === 0
-        ? "FREE"
-        : `$${formatCurrency(deliveryOption.priceCents)}`;
-
-    const isChecked =
-      deliveryOption.id === cartItem.deliveryOptionId ? "checked" : "";
-
-    html += `
-      <div class="delivery-option">
-        <input
-          ${isChecked}
-          type="radio"
-          class="delivery-option-input js-delivery-option"
-          value="${deliveryOption.id}"
-          name="delivery-option-${cartItem.productId}"
-        />
-        <div>
-          <div class="delivery-option-date">${dateString}</div>
-          <div class="delivery-option-price">${priceString} - Shipping</div>
-        </div>
-      </div>
-    `;
-  });
-  return html;
+  document.querySelector(".js-payment-summary").innerHTML = orderSummaryHTML;
 }
 
-document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+// Display the order summary
+function renderOrderSummary() {
+  let cartSummaryHTML = "";
 
-document.querySelectorAll(".js-delete-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const productToDelete = link.dataset.productId;
-    removeFromCart(productToDelete);
-    const container = document.querySelector(
-      `.js-cart-item-containter-${productToDelete}`
-    );
-    container.remove();
-  });
-});
+  cart.forEach((cartItem) => {
+    const productId = cartItem.productId;
+    let matchingProduct;
 
-document.querySelectorAll(".js-update-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    console.log("clicked");
-    const productToUpdate = link.dataset.productId;
-    updateItemQuantity(productToUpdate);
-  });
-});
+    products.forEach((product) => {
+      if (productId === product.id) {
+        matchingProduct = product;
 
-document.querySelectorAll(".js-delivery-option").forEach((element) => {
-  element.addEventListener("change", (event) => {
-    if (event.target.checked) {
-      cart.forEach((cartItem) => {
-        if (event.target.name === `delivery-option-${cartItem.productId}`) {
-          updateDeliveryOptions(event.target, cartItem);
-          const deliveryDateString =
-            document.querySelectorAll(".delivery-date");
-          deliveryDateString.forEach((deliveryDate) => {
-            if (
-              "delivery-option-" + deliveryDate.dataset.itemId ===
-              event.target.name
-            ) {
-              let dateString = "";
-              cart.forEach((c) => {
-                if (c.productId === cartItem.productId) {
-                  dateString = genArrivalDateString(c.deliveryOptionId);
-                }
-              });
-              deliveryDate.innerHTML = `Delivery date: ${dateString}`;
-            }
-          });
-        }
-      });
-    }
+        cartSummaryHTML += `
+          <div class="
+            cart-item-container js-cart-item-containter-${matchingProduct.id}
+          ">
+            <div class="delivery-date" data-item-id='${productId}'>
+              Delivery date: ${genArrivalDateString(cartItem.deliveryOptionId)}
+            </div>
+
+            <div class="cart-item-details-grid">
+              <img
+                class="product-image"
+                src="${matchingProduct.image}"
+              />
+
+              <div class="cart-item-details">
+                <div class="product-name">
+                  ${matchingProduct.name}
+                </div>
+                <div class="product-price">$${formatCurrency(
+                  matchingProduct.priceCents
+                )}</div>
+                <div class="product-quantity">
+                  <span> Quantity: 
+                    <span class="quantity-label js-quantity-label-${
+                      matchingProduct.id
+                    }">
+                      ${cartItem.quantity}
+                    </span> 
+                  </span>
+                  <span class="update-quantity-link link-primary js-update-link" data-product-id="${
+                    matchingProduct.id
+                  }">
+                    Update
+                  </span>
+                  <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${
+                    matchingProduct.id
+                  }">
+                    Delete
+                  </span>
+                </div>
+              </div>
+
+              <div class="delivery-options">
+                <div class="delivery-options-title">
+                  Choose a delivery option:
+                </div>
+                ${deliveryOptionsHTML(cartItem)}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+    document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
   });
-});
+
+
+  function deliveryOptionsHTML(cartItem) {
+    let html = "";
+
+    deliveryOptions.forEach((deliveryOption) => {
+      const dateString = genArrivalDateString(deliveryOption.id);
+
+      const priceString =
+        deliveryOption.priceCents === 0
+          ? "FREE"
+          : `$${formatCurrency(deliveryOption.priceCents)}`;
+
+      const isChecked =
+        deliveryOption.id === cartItem.deliveryOptionId ? "checked" : "";
+
+      html += `
+        <div class="delivery-option">
+          <input
+            ${isChecked}
+            type="radio"
+            class="delivery-option-input js-delivery-option"
+            value="${deliveryOption.id}"
+            name="delivery-option-${cartItem.productId}"
+          />
+          <div>
+            <div class="delivery-option-date">${dateString}</div>
+            <div class="delivery-option-price">${priceString} - Shipping</div>
+          </div>
+        </div>
+      `;
+    });
+    return html;
+  }
+
+  document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
+
+  document.querySelectorAll(".js-delete-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const productToDelete = link.dataset.productId;
+      removeFromCart(productToDelete);
+      const container = document.querySelector(
+        `.js-cart-item-containter-${productToDelete}`
+      );
+      container.remove();
+    });
+  });
+
+  document.querySelectorAll(".js-update-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      console.log("clicked");
+      const productToUpdate = link.dataset.productId;
+      updateItemQuantity(productToUpdate);
+    });
+  });
+
+  document.querySelectorAll(".js-delivery-option").forEach((element) => {
+    element.addEventListener("change", (event) => {
+      if (event.target.checked) {
+        cart.forEach((cartItem) => {
+          if (event.target.name === `delivery-option-${cartItem.productId}`) {
+            updateDeliveryOptions(event.target, cartItem);
+            const deliveryDateString =
+              document.querySelectorAll(".delivery-date");
+            deliveryDateString.forEach((deliveryDate) => {
+              if (
+                "delivery-option-" + deliveryDate.dataset.itemId ===
+                event.target.name
+              ) {
+                let dateString = "";
+                cart.forEach((c) => {
+                  if (c.productId === cartItem.productId) {
+                    dateString = genArrivalDateString(c.deliveryOptionId);
+                  }
+                });
+                deliveryDate.innerHTML = `Delivery date: ${dateString}`;
+              }
+            });
+          }
+        });
+      }
+    });
+  });
+}

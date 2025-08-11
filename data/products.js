@@ -39,6 +39,25 @@ const product1 = new Product({
   keywords: ["socks", "sports", "apparel"],
 });
 
+
+export let products = [];
+
+export function loadProducts(functionToCall) { // functionToCall is a callback function
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener("load", () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      return new Product(productDetails);
+    });
+    functionToCall();
+  });
+
+  xhr.open('GET', 'http://supersimplebackend.dev/products', true);
+  xhr.send();
+}
+
+
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -513,3 +532,4 @@ export const products = [
 ].map((productDetails) => {
   return new Product(productDetails);
 });
+*/
