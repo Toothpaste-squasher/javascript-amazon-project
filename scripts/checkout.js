@@ -8,6 +8,7 @@ import {
 } from "../data/deliveryOptions.js";
 import * as paymentSum from "./paymentSummary.js";
 import "../data/cart-class.js";
+import "../data/backend-practice.js"
 
 // Display the total price of items in the cart
 document.querySelector;
