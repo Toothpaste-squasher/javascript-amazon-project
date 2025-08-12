@@ -7,14 +7,35 @@ import {
   updateDeliveryOptions,
 } from "../data/deliveryOptions.js";
 import * as paymentSum from "./paymentSummary.js";
-import "../data/cart-class.js";
 import {loadProducts} from "../data/products.js";
 
+console.log("loaded")
 
-loadProducts(() => {
+Promise.all([
+  new Promise((resolve) => {
+    loadProducts(resolve);
+    console.log("asdasd")
+  }),
+  new Promise((resolve) => {
+    loadCart(resolve);
+  })
+]).then(() => {
   renderOrderSummary();
   renderPaymentSummary();
 });
+
+function loadCart(functionToCall) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener("load", () => {
+    let cart = xhr.response;
+    console.log(cart);
+    functionToCall();
+  });
+
+  xhr.open("GET", "http://supersimplebackend.dev/cart", true);
+  xhr.send();
+}
 
 
 // Display the total price of items in the cart

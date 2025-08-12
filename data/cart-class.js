@@ -10,7 +10,7 @@ class Cart {
   loadFromLocalStorage() {
     this.cartItems = JSON.parse(localStorage.getItem(this.localStorageKey));
     if (!this.cartItems) {
-      this.cartItems = ["asdlaknsd", "aldknsd"];
+      this.cartItems = [];
     }
     this.saveToLocalStorage();
   }
@@ -41,7 +41,7 @@ class Cart {
   }
 
   removeFromCart(productId) {
-    const newCart = [];
+    const new Cart = [];
 
     cart.forEach((cartItem) => {
       if (productId !== cartItem.productId) {
@@ -100,10 +100,6 @@ class Cart {
   }
 }
 
-const cart = new Cart("cart-oop");
+const cartOop = new Cart("cart-oop");
 const businessCart = new Cart("cart-business");
 
-console.log(cart);
-console.log(businessCart);
-
-console.log(cart.cartItems);

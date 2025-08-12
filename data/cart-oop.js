@@ -4,7 +4,7 @@ const cart = {
   loadFromLocalStorage() {
     this.cartItems = JSON.parse(localStorage.getItem("cart-oop"));
     if (!this.cartItems) {
-      this.cartItems = ["asdlaknsd", "aldknsd"];
+      this.cartItems = [];
     }
   },
 
