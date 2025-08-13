@@ -7,15 +7,12 @@ import {
   updateDeliveryOptions,
 } from "../data/deliveryOptions.js";
 import * as paymentSum from "./paymentSummary.js";
-import {loadProducts} from "../data/products.js";
+import {loadProductsFetch} from "../data/products.js";
 
 console.log("loaded")
 
 Promise.all([
-  new Promise((resolve) => {
-    loadProducts(resolve);
-    console.log("asdasd")
-  }),
+  loadProductsFetch(),
   new Promise((resolve) => {
     loadCart(resolve);
   })

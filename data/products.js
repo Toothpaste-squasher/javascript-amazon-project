@@ -42,6 +42,17 @@ const product1 = new Product({
 
 export let products = [];
 
+
+export function loadProductsFetch() {
+  fetch("http://supersimplebackend.dev/products").then((response) => {
+    return response.json();
+  }).then ((productsData) => {
+    products = productsData.map((productDetails) => {
+      return new Product(productDetails);
+    });
+  })
+}
+
 export function loadProducts(functionToCall) { // functionToCall is a callback function
   const xhr = new XMLHttpRequest();
 
